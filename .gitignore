@@ -1,0 +1,5 @@
+/src/main/resources/database.properties
+/.idea/
+/target/
+/src/main/webapp/WEB-INF/web.xml
+/src/main/webapp/index.jsp
