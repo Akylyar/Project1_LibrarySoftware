@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +53,13 @@ public class PeopleService {
 
     public List<Book> findBooksByPersonId(int id) {
         Optional<Person> person = peopleRepository.findById(id);
-        person.ifPresent(p -> Hibernate.initialize(p.getBooks()));
+
+        if (person.isPresent()) {
+            Hibernate.initialize(person.get().getBooks());
+        } else {
+            return Collections.emptyList();
+        }
+
         return person.get().getBooks();
     }
 }
