@@ -1,22 +1,36 @@
 package org.example.library.models;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
+@Entity
+@Table(name = "person")
 public class Person {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotEmpty(message = "Введите ФИО")
     @Size(min = 8, max = 100, message = "ФИО может содержать от 8 до 100 символов")
+    @Column(name = "full_name")
     private String fullName;
 
     @Min(value = 1920, message = "Год рождения должен быть не меньше 1920")
+    @Column(name = "year_of_birth")
     private int yearOfBirth;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
 
     public Person() {}
 
-    public Person(String fullName, int yearOfBirth) {
+    public Person(String fullName, int yearOfBirth, List<Book> books) {
         this.fullName = fullName;
         this.yearOfBirth = yearOfBirth;
+        this.books = books;
     }
 
     public int getId() {
@@ -41,5 +55,13 @@ public class Person {
 
     public void setYearOfBirth(int yearOfBirth) {
         this.yearOfBirth = yearOfBirth;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }

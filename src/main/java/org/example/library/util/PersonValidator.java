@@ -1,7 +1,7 @@
 package org.example.library.util;
 
-import org.example.library.dao.PersonDAO;
 import org.example.library.models.Person;
+import org.example.library.services.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -9,11 +9,11 @@ import org.springframework.validation.Validator;
 
 @Component
 public class PersonValidator implements Validator {
-    private final PersonDAO personDAO;
+    private final PeopleService peopleService;
 
     @Autowired
-    public PersonValidator(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PersonValidator(PeopleService peopleService) {
+        this.peopleService = peopleService;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class PersonValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Person person = (Person) target;
 
-        if (personDAO.show(person.getFullName()).isPresent()) {
+        if (peopleService.findByFullName(person.getFullName()).isPresent()) {
             errors.rejectValue("fullName", "", "Человек с таким ФИО уже зарегистрирован");
         }
     }

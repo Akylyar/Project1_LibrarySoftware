@@ -11,7 +11,7 @@
     <hr/>
     <span><b>Книги:</b></span>
     <p th:each="book : ${books}"
-          th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</p>
+       th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</p>
 </div>
 
 <div th:if="${books.isEmpty()}">
