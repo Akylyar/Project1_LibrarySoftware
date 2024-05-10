@@ -4,6 +4,7 @@ import org.example.library.models.Book;
 import org.example.library.models.Person;
 import org.example.library.repositories.BooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,10 @@ public class BooksService {
 
     public List<Book> findAll() {
         return booksRepository.findAll();
+    }
+
+    public List<Book> findAllWithPagination(Integer page, Integer booksPerPage) {
+        return booksRepository.findAll(PageRequest.of(page, booksPerPage)).getContent();
     }
 
     public Book findOne(int id) {
