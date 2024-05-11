@@ -28,12 +28,13 @@ public class BooksController {
     @GetMapping
     public String list(@RequestParam(value = "page", required = false) Integer page,
                        @RequestParam(value = "books_per_page", required = false) Integer booksPerPage,
+                       @RequestParam(value = "sort_by_year", required = false) boolean sort,
                        Model model) {
 
         if (page == null || booksPerPage == null) {
-            model.addAttribute("books", booksService.findAll());
+            model.addAttribute("books", booksService.findAll(sort));
         } else {
-            model.addAttribute("books", booksService.findAllWithPagination(page, booksPerPage));
+            model.addAttribute("books", booksService.findAllWithPagination(page, booksPerPage, sort));
         }
         return "books/list";
     }
