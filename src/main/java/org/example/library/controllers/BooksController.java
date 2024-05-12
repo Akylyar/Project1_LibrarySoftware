@@ -102,4 +102,15 @@ public class BooksController {
         booksService.release(id);
         return "redirect:/books/" + id;
     }
+
+    @GetMapping("/search")
+    public String searchPage() {
+        return "books/search";
+    }
+
+    @PostMapping("/search")
+    public String search(@RequestParam("query") String query, Model model) {
+        model.addAttribute("books", booksService.findByTitleStartingWith(query));
+        return "books/search";
+    }
 }

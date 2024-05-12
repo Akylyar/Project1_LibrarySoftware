@@ -79,4 +79,8 @@ public class BooksService {
         book.getOwner().getBooks().remove(book);
         book.setOwner(null);
     }
+
+    public List<Book> findByTitleStartingWith(String query) {
+        return booksRepository.findByTitleStartingWith(query);
+    }
 }
