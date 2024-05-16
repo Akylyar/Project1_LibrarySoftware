@@ -59,18 +59,18 @@ public class PeopleService {
         if (person.isPresent()) {
             Hibernate.initialize(person.get().getBooks());
 
-            for (Book book : person.get().getBooks()) {
+            person.get().getBooks().forEach(book -> {
                 LocalDateTime startDate = book.getTakenAt();
                 LocalDateTime endDate = LocalDateTime.now();
 
-                if (Duration.between(startDate, endDate).toDays() > 10) {
+                if (Duration.between(startDate, endDate).toDays() > 10)
                     book.setExpiration(true);
-                }
-            }
-        } else {
+            });
+
+            return person.get().getBooks();
+        }
+        else {
             return Collections.emptyList();
         }
-
-        return person.get().getBooks();
     }
 }
