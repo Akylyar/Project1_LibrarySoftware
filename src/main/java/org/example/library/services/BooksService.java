@@ -63,8 +63,7 @@ public class BooksService {
     }
 
     public Optional<Person> findOwner(int id) {
-        Book book = findOne(id);
-        return Optional.ofNullable(book.getOwner());
+        return Optional.ofNullable(findOne(id).getOwner());
     }
 
     @Transactional
