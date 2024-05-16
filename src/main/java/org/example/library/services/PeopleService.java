@@ -55,14 +55,14 @@ public class PeopleService {
         Optional<Person> person = peopleRepository.findById(id);
         if (person.isPresent()) {
             Hibernate.initialize(person.get().getBooks());
-            PeopleService.calculationOfExpiration(person.get());
+            calculationOfExpiration(person.get());
             return person.get().getBooks();
         } else {
             return Collections.emptyList();
         }
     }
 
-    public static void calculationOfExpiration(Person person) {
+    public void calculationOfExpiration(Person person) {
         person.getBooks().forEach(book -> {
             LocalDateTime startDate = book.getTakenAt();
             LocalDateTime endDate = LocalDateTime.now();

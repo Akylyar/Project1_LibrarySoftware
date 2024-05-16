@@ -40,7 +40,7 @@ public class Book {
     private LocalDateTime takenAt;
 
     @Transient
-    private boolean expiration = false;
+    private boolean expiration;
 
     public Book() {}
 
