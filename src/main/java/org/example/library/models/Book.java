@@ -5,6 +5,10 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Entity
 @Table(name = "Book")
 public class Book {
@@ -31,13 +35,21 @@ public class Book {
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
 
+    @Column(name = "taken_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime takenAt;
+
+    @Transient
+    private boolean expiration = false;
+
     public Book() {}
 
-    public Book(String title, String author, int year, Person owner) {
+    public Book(String title, String author, int year, Person owner, LocalDateTime takenAt) {
         this.title = title;
         this.author = author;
         this.year = year;
         this.owner = owner;
+        this.takenAt = takenAt;
     }
 
     public int getId() {
@@ -78,5 +90,21 @@ public class Book {
 
     public void setOwner(Person owner) {
         this.owner = owner;
+    }
+
+    public LocalDateTime getTakenAt() {
+        return takenAt;
+    }
+
+    public void setTakenAt(LocalDateTime takenAt) {
+        this.takenAt = takenAt;
+    }
+
+    public boolean isExpiration() {
+        return expiration;
+    }
+
+    public void setExpiration(boolean expiration) {
+        this.expiration = expiration;
     }
 }

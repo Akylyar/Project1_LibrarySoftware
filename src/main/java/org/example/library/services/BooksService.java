@@ -9,6 +9,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,18 +69,17 @@ public class BooksService {
 
     @Transactional
     public void assign(int id, Person selectedPerson) {
-        booksRepository.findById(id).ifPresent(
-                book -> {
-                    book.setOwner(selectedPerson);
-                }
-        );
+        booksRepository.findById(id).ifPresent(book -> book.setTakenAt(LocalDateTime.now()));
+        booksRepository.findById(id).ifPresent(book -> book.setOwner(selectedPerson));
+        Optional<Book> book = booksRepository.findById(id);
     }
 
     @Transactional
     public void release(int id) {
-        Book book = findOne(id);
-        book.getOwner().getBooks().remove(book);
-        book.setOwner(null);
+        booksRepository.findById(id).ifPresent(book -> book.setExpiration(false));
+        booksRepository.findById(id).ifPresent(book -> book.setTakenAt(null));
+        booksRepository.findById(id).ifPresent(book -> book.getOwner().getBooks().remove(book));
+        booksRepository.findById(id).ifPresent(book -> book.setOwner(null));
     }
 
     public List<Book> findByTitleStartingWith(String query) {

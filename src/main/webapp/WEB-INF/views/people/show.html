@@ -7,15 +7,23 @@
 <body>
 <p th:text="${person.getFullName() + ', ' + person.getYearOfBirth()}">VALUES</p>
 
-<div th:if="${!books.isEmpty()}">
-    <hr/>
-    <span><b>Книги:</b></span>
-    <p th:each="book : ${books}"
-       th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</p>
-</div>
-
 <div th:if="${books.isEmpty()}">
     <p>Человек пока не взял ни одной книги</p>
+</div>
+
+<div th:if="${!books.isEmpty()}">
+    <hr/>
+    <b>Книги:</b>
+    <table th:each="book : ${books}">
+        <tr>
+            <td>
+                <span th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"
+                      th:style="${book.isExpiration()} ? 'color: red' : 'color: black'">
+                    book
+                </span>
+            </td>
+        </tr>
+    </table>
 </div>
 
 <hr/>

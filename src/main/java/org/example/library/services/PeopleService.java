@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -56,6 +58,15 @@ public class PeopleService {
 
         if (person.isPresent()) {
             Hibernate.initialize(person.get().getBooks());
+
+            for (Book book : person.get().getBooks()) {
+                LocalDateTime startDate = book.getTakenAt();
+                LocalDateTime endDate = LocalDateTime.now();
+
+                if (Duration.between(startDate, endDate).toDays() > 10) {
+                    book.setExpiration(true);
+                }
+            }
         } else {
             return Collections.emptyList();
         }
