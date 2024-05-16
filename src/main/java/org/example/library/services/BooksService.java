@@ -69,9 +69,10 @@ public class BooksService {
 
     @Transactional
     public void assign(int id, Person selectedPerson) {
-        booksRepository.findById(id).ifPresent(book -> book.setTakenAt(LocalDateTime.now()));
-        booksRepository.findById(id).ifPresent(book -> book.setOwner(selectedPerson));
-        Optional<Book> book = booksRepository.findById(id);
+        booksRepository.findById(id).ifPresent(book -> {
+            book.setTakenAt(LocalDateTime.now());
+            book.setOwner(selectedPerson);
+        });
     }
 
     @Transactional
