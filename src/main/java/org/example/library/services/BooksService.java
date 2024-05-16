@@ -76,10 +76,12 @@ public class BooksService {
 
     @Transactional
     public void release(int id) {
-        booksRepository.findById(id).ifPresent(book -> book.setExpiration(false));
-        booksRepository.findById(id).ifPresent(book -> book.setTakenAt(null));
-        booksRepository.findById(id).ifPresent(book -> book.getOwner().getBooks().remove(book));
-        booksRepository.findById(id).ifPresent(book -> book.setOwner(null));
+        booksRepository.findById(id).ifPresent(book -> {
+            book.setExpiration(false);
+            book.setTakenAt(null);
+            book.getOwner().getBooks().remove(book);
+            book.setOwner(null);
+        });
     }
 
     public List<Book> findByTitleStartingWith(String query) {
