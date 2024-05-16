@@ -79,7 +79,6 @@ public class BooksService {
         booksRepository.findById(id).ifPresent(book -> {
             book.setExpiration(false);
             book.setTakenAt(null);
-            book.getOwner().getBooks().remove(book);
             book.setOwner(null);
         });
     }
