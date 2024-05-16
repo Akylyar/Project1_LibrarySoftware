@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.*;
 
 @Service
@@ -55,22 +53,22 @@ public class PeopleService {
 
     public List<Book> findBooksByPersonId(int id) {
         Optional<Person> person = peopleRepository.findById(id);
-
         if (person.isPresent()) {
             Hibernate.initialize(person.get().getBooks());
-
-            person.get().getBooks().forEach(book -> {
-                LocalDateTime startDate = book.getTakenAt();
-                LocalDateTime endDate = LocalDateTime.now();
-
-                if (Duration.between(startDate, endDate).toDays() > 10)
-                    book.setExpiration(true);
-            });
-
+            PeopleService.calculationOfExpiration(person.get());
             return person.get().getBooks();
-        }
-        else {
+        } else {
             return Collections.emptyList();
         }
+    }
+
+    public static void calculationOfExpiration(Person person) {
+        person.getBooks().forEach(book -> {
+            LocalDateTime startDate = book.getTakenAt();
+            LocalDateTime endDate = LocalDateTime.now();
+
+            if (Duration.between(startDate, endDate).toDays() > 10)
+                book.setExpiration(true);
+        });
     }
 }
