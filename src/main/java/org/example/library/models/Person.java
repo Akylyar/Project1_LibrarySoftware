@@ -1,13 +1,9 @@
 package org.example.library.models;
 
 import jakarta.persistence.*;
-<<<<<<< HEAD
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-=======
-import jakarta.validation.constraints.*;
->>>>>>> 02279d6632ef216c8b3235455d08011e3d236b9b
 
 import java.util.List;
 
