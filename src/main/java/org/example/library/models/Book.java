@@ -5,7 +5,13 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+<<<<<<< HEAD
 import java.time.LocalDateTime;
+=======
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+>>>>>>> 02279d6632ef216c8b3235455d08011e3d236b9b
 
 @Entity
 @Table(name = "Book")
